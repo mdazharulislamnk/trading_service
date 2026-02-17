@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Trading Service Test Client</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+        }
+
+        h1,
+        h2 {
+            color: #569cd6;
+        }
+
+        .api-link {
+            color: #9cdcfe;
+            text-decoration: none;
+            margin-right: 15px;
+            border: 1px solid #333;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background: #252526;
+            display: inline-block;
+        }
+
+        .api-link:hover {
+            background: #3e3e42;
+        }
+
+        .merged-input-group {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid #333;
+            background: #252526;
+            border-radius: 4px;
+            margin-right: 15px;
+            vertical-align: middle;
+        }
+
+        .url-part {
+            padding: 5px 5px 5px 10px;
+            color: #9cdcfe;
+        }
+
+        .id-input {
+            background: #1e1e1e;
+            border: 1px solid #444;
+            color: white;
+            width: 40px;
+            text-align: center;
+            padding: 2px;
+            margin: 0 5px;
+            border-radius: 2px;
+        }
+
+        .go-btn {
+            background: #0e639c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            height: 100%;
+            border-left: 1px solid #333;
+        }
+
+        .go-btn:hover {
+            background: #1177bb;
+        }
+
+        #messages {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+            border-top: 1px solid #333;
+        }
+
+        #messages li {
+            padding: 5px 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #2d2d2d;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Trading Service Test Client</h1>
+
+    <!-- 1. API Endpoints Section -->
+    <div class="section">
+        <h2>1. Check API Endpoints</h2>
+        <p>API is running. Try these endpoints:</p>
+        <div style="margin-top: 10px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <a href="http://localhost:8080/health" target="_blank" class="api-link">GET /health</a>
+            <a href="http://localhost:8080/orders" target="_blank" class="api-link">GET /orders</a>
+
+            <!-- Merged Input Design -->
+            <div class="merged-input-group">
+                <span class="url-part">GET /orders/</span>
+                <input type="number" id="testClientId" class="id-input" value="1" onclick="this.select()">
+                <button onclick="openOrderLink()" class="go-btn">→</button>
+            </div>
+
+            <a href="http://localhost:8080/analytics" target="_blank" class="api-link">GET /analytics</a>
+            <a href="http://localhost:8080/docs" target="_blank" class="api-link">GET /docs (Swagger UI)</a>
+        </div>
+        <p style="font-size: 0.8em; color: #888; margin-top: 15px;">Note: POST /accounts and /webhook are best tested
+            via Curl or Swagger UI.</p>
+    </div>
+
+    <!-- 2. WebSocket Section -->
+    <div class="section">
+        <h2>2. Real-time Order Updates (WebSocket)</h2>
+        <div>Status: <span id="ws-status" style="color:red" class="status">Disconnected</span></div>
+        <ul id="messages"></ul>
+    </div>
+
+    <script>
+        // WebSocket Connection
+        var ws = new WebSocket("ws://localhost:8080/ws/orders");
+        var statusSpan = document.getElementById("ws-status");
+
+        ws.onopen = function (event) {
+            statusSpan.textContent = "Connected";
+            statusSpan.style.color = "#4ec9b0"; // Green-ish
+            log("System: Connected to WebSocket server.");
+        };
+
+        ws.onmessage = function (event) {
+            log("Received: " + event.data);
+        };
+
+        ws.onclose = function (event) {
+            statusSpan.textContent = "Disconnected";
+            statusSpan.style.color = "red";
+            log("System: Disconnected.");
+        };
+
+        function log(text) {
+            var messages = document.getElementById('messages');
+            var message = document.createElement('li');
+            message.textContent = text;
+            messages.appendChild(message);
+        }
+
+        function openOrderLink() {
+            var id = document.getElementById('testClientId').value || 1;
+            window.open('http://localhost:8080/orders/' + id, '_blank');
+        }
+    </script>
+</body>
+
+</html>

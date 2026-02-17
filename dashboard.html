@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Service Complete Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .card {
+            background-color: #1e293b;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            @apply px-4 py-2 rounded font-bold transition duration-200 cursor-pointer;
+        }
+
+        .btn-blue {
+            @apply bg-blue-600 hover:bg-blue-700 text-white;
+        }
+
+        .btn-green {
+            @apply bg-green-600 hover:bg-green-700 text-white;
+        }
+
+        .btn-slate {
+            @apply bg-slate-700 hover:bg-slate-600 text-white;
+        }
+
+        pre {
+            background: #000;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 0.8em;
+        }
+
+        /* Merged Input Group Style */
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: #334155;
+            border-radius: 0.25rem;
+            overflow: hidden;
+        }
+
+        .input-group-label {
+            padding: 0.5rem 0.75rem;
+            color: #94a3b8;
+            font-weight: bold;
+            font-size: 0.875rem;
+            background: #1e293b;
+        }
+
+        .input-group-input {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            width: 50px;
+            text-align: center;
+            font-weight: bold;
+            outline: none;
+        }
+
+        .input-group-btn {
+            background: #334155;
+            color: #e2e8f0;
+            padding: 0.5rem 0.75rem;
+            font-weight: bold;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .input-group-btn:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+
+<body class="p-8 max-w-7xl mx-auto">
+
+    <header class="mb-8 flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-white">Trading Service Tester</h1>
+        <div id="connection-status" class="px-3 py-1 rounded-full text-sm font-bold bg-red-500/20 text-red-500">
+            WS Disconnected
+        </div>
+    </header>
+
+    <!-- 1. API Testing Section -->
+    <div class="card mb-8">
+        <h2 class="text-xl font-bold text-white mb-4">1. Test API Endpoints (Click to Test)</h2>
+        <div class="flex flex-wrap gap-4 items-center">
+            <button onclick="testApi('/health')" class="btn btn-slate">GET /health</button>
+            <button onclick="testApi('/orders')" class="btn btn-slate">GET /orders (All Users)</button>
+
+            <!-- Custom Combined Input for Order ID -->
+            <div class="bg-slate-700 rounded flex items-center overflow-hidden">
+                <div class="px-3 py-2 text-slate-300 font-mono text-sm">GET /orders/</div>
+                <input type="number" id="orderIdInput" value="1"
+                    class="bg-slate-800 text-white w-12 text-center py-2 outline-none font-bold"
+                    onclick="this.select()">
+                <button onclick="testOrderById()"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 font-bold text-sm">GO</button>
+            </div>
+
+            <button onclick="testApi('/analytics')" class="btn btn-green">GET /analytics (Bonus)</button>
+        </div>
+
+        <div class="mt-4">
+            <h3 class="text-sm font-bold text-slate-400 mb-1">POST /accounts (Link Account)</h3>
+            <div class="flex gap-2 items-center">
+                <input type="number" id="linkUserId" value="1"
+                    class="bg-slate-800 text-white w-16 p-2 rounded text-center" placeholder="UID">
+                <button onclick="linkAccount()" class="btn btn-blue text-sm">Link This User to MetaTrader</button>
+            </div>
+        </div>
+
+        <div id="api-result" class="mt-4 hidden">
+            <h3 class="text-sm font-bold text-slate-400 mb-1">API Response:</h3>
+            <pre id="api-output" class="text-green-400">Waiting...</pre>
+        </div>
+    </div>
+
+    <!-- 2. Signal Sending Section -->
+    <div class="card mb-8">
+        <h2 class="text-xl font-bold text-white mb-4">2. Send Trading Signal (Webhook)</h2>
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4 items-end">
+            <div><label class="block text-sm text-blue-400 font-bold mb-1">User ID</label><input id="userId" value="1"
+                    type="number" class="w-full bg-slate-800 p-2 rounded text-blue-400 font-bold"></div>
+            <div><label class="block text-sm text-slate-400 mb-1">Action</label><select id="action"
+                    class="w-full bg-slate-800 p-2 rounded">
+                    <option>BUY</option>
+                    <option>SELL</option>
+                </select></div>
+            <div><label class="block text-sm text-slate-400 mb-1">Symbol</label><input id="symbol" value="EURUSD"
+                    class="w-full bg-slate-800 p-2 rounded"></div>
+            <div><label class="block text-sm text-slate-400 mb-1">Price</label><input id="price" value="1.0850"
+                    class="w-full bg-slate-800 p-2 rounded"></div>
+            <div><label class="block text-sm text-slate-400 mb-1">SL</label><input id="sl" value="1.0800"
+                    class="w-full bg-slate-800 p-2 rounded"></div>
+            <div><button onclick="sendSignal()" class="btn btn-blue w-full">Send Signal</button></div>
+        </div>
+    </div>
+
+    <!-- 3. Real-time Websocket Feed -->
+    <div class="card">
+        <h2 class="text-xl font-bold text-white mb-4">3. Real-time Order Updates (WebSocket)</h2>
+        <div id="ws-logs" class="h-48 overflow-y-auto bg-slate-900 p-4 rounded text-sm font-mono space-y-1">
+            <div class="text-slate-500">Waiting for updates...</div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "http://localhost:8080";
+        const WS_URL = "ws://localhost:8080/ws/orders";
+
+        // WebSocket
+        const ws = new WebSocket(WS_URL);
+        const statusBadge = document.getElementById('connection-status');
+        const logsDiv = document.getElementById('ws-logs');
+
+        ws.onopen = () => {
+            statusBadge.innerText = "WS Connected";
+            statusBadge.classList.replace('text-red-500', 'text-green-500');
+            statusBadge.classList.replace('bg-red-500/20', 'bg-green-500/20');
+            log("Connected to WebSocket...");
+        };
+        ws.onmessage = (e) => log("Update: " + e.data);
+
+        function log(msg) {
+            const div = document.createElement('div');
+            div.innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            div.className = "text-green-400";
+            logsDiv.prepend(div);
+        }
+
+        // Test Specific Order
+        function testOrderById() {
+            const id = document.getElementById('orderIdInput').value || 1;
+            testApi('/orders/' + id);
+        }
+
+        // Generic API Test
+        async function testApi(endpoint) {
+            try {
+                const res = await fetch(API_URL + endpoint);
+                const data = await res.json();
+                document.getElementById('api-result').classList.remove('hidden');
+                document.getElementById('api-output').innerText = JSON.stringify(data, null, 2);
+            } catch (e) {
+                alert("Error: " + e);
+            }
+        }
+
+        // Link Account
+        async function linkAccount() {
+            const userId = document.getElementById('linkUserId').value || 1;
+            try {
+                const res = await fetch(API_URL + "/accounts", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId, broker_name: "MetaTrader", broker_api_key: "key-" + userId })
+                });
+                const data = await res.json();
+                document.getElementById('api-result').classList.remove('hidden');
+                document.getElementById('api-output').innerText = JSON.stringify(data, null, 2);
+            } catch (e) { alert(e); }
+        }
+
+        // Send Signal
+        async function sendSignal() {
+            const userId = document.getElementById('userId').value || 1;
+            const action = document.getElementById('action').value;
+            const symbol = document.getElementById('symbol').value;
+            const price = document.getElementById('price').value;
+            const sl = document.getElementById('sl').value;
+            const tp = (parseFloat(sl) + 0.02).toFixed(4);
+            const text = `${action} ${symbol} @${price}\nSL ${sl}\nTP ${tp}`;
+
+            try {
+                const res = await fetch(`${API_URL}/webhook/receive-signal?user_id=${userId}&signal_text=${encodeURIComponent(text)}`, { method: 'POST' });
+                const data = await res.json();
+                if (data.order_id) log(`Signal Sent for User ${userId}! Order ID: ${data.order_id}`);
+                else log("Error: " + JSON.stringify(data));
+            } catch (e) { log("Network Error"); }
+        }
+    </script>
+</body>
+
+</html>
