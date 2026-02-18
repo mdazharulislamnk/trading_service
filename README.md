@@ -77,6 +77,7 @@ trading_service/
 ├── dashboard.html          # Testing UI. A visual dashboard for testing the API.
 ├── test_client.html        # Simple Client. Basic file to test WebSocket connections.
 ├── curl.txt                # CLI Cheat Sheet. Commands for terminal testing.
+├── render.yaml             # Render Deployment. Automates setting up the Web Service and DB on Render.
 ├── .gitignore              # Git Ignore. Prevents files like venv or .db from being committed.
 └── README.md               # Documentation. This file.
 ```
@@ -106,6 +107,16 @@ trading_service/
 3.  **Check if it works:**
     *   API is available at: `http://localhost:8080`
     *   Docs are available at: `http://localhost:8080/docs`
+
+### Deployment (Render)
+
+I've included a `render.yaml` file so you can deploy this easily:
+
+1.  Push this repo to your GitHub.
+2.  Go to [Render Dashboard](https://dashboard.render.com/).
+3.  Click **New +** -> **Blueprint**.
+4.  Connect your repo.
+5.  Render will automatically create the **Web Service** and **PostgreSQL Database** for you.
 
 ### Running Locally
 
