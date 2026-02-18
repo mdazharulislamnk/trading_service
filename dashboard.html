@@ -162,8 +162,9 @@
     </div>
 
     <script>
-        const API_URL = "http://localhost:8080";
-        const WS_URL = "ws://localhost:8080/ws/orders";
+        const API_URL = window.location.origin;
+        const WS_PROTOCOL = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const WS_URL = `${WS_PROTOCOL}//${window.location.host}/ws/orders`;
 
         // WebSocket
         const ws = new WebSocket(WS_URL);
