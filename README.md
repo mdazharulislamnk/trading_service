@@ -2,21 +2,34 @@
 
 Hi, I'm **Md. Azharul Islam**. This is a backend service I built to handle trading signals, manage order lifecycles, and push updates in real-time. I used **FastAPI**, **PostgreSQL**, and **Docker** to put it all together.
 
-## 📋 Table of Contents
+##  Table of Contents
 
-1.  [Project Overview](#project-overview)
-2.  [Key Features](#key-features)
-3.  [Technology Stack](#technology-stack)
-4.  [Project Structure & File Descriptions](#project-structure)
-5.  [Getting Started](#getting-started)
+1.  [Live Demo](#live-demo)
+2.  [Project Overview](#project-overview)
+3.  [Key Features](#key-features)
+4.  [Technology Stack](#technology-stack)
+5.  [Project Structure & File Descriptions](#project-structure)
+6.  [Getting Started](#getting-started)
     *   [Prerequisites](#prerequisites)
     *   [Running with Docker (Recommended)](#running-with-docker-recommended)
     *   [Running Locally](#running-locally)
-6.  [API Documentation](#api-documentation)
-7.  [Testing](#testing)
+    *   [Deployment (Render)](#deployment-render)
+7.  [API Documentation](#api-documentation)
+8.  [Testing](#testing)
     *   [Visual Dashboard](#visual-dashboard)
     *   [CLI Testing](#cli-testing)
-8.  [Design Decisions](#design-decisions)
+9.  [Design Decisions](#design-decisions)
+
+---
+
+## <a name="live-demo"></a> Live Demo
+
+You can try the live version running on Render right now:
+
+*   **API Root:** [https://trading-service-oszt.onrender.com/](https://trading-service-oszt.onrender.com/)
+*   **Visual Dashboard:** [https://trading-service-oszt.onrender.com/dashboard](https://trading-service-oszt.onrender.com/dashboard)
+*   **Lite Client:** [https://trading-service-oszt.onrender.com/test_client](https://trading-service-oszt.onrender.com/test_client)
+*   **Documentation:** [https://trading-service-oszt.onrender.com/docs](https://trading-service-oszt.onrender.com/docs)
 
 ---
 
@@ -39,6 +52,8 @@ I made sure it was **asynchronous** and **real-time** because nobody likes waiti
 *   **Order Tracking:** The system follows an order from start to finish: `PENDING` -> `EXECUTED` -> `CLOSED`.
 *   **Routing:** You can specify `user_id` to route signals to specific accounts.
 *   **Mock Broker:** Since I didn't want to connect a real broker account for testing, I built a simulation service that holds orders briefly and then generates a random PnL.
+*   **Human-Style Interaction:** I designed the API responses to simulate natural, human-readable data structures where possible, making integration feel more intuitive than standard robotic APIs.
+*   **AI Undetectable Architecture:** The system uses randomized delays and varied execution patterns in the mock broker to mimick organic trading behavior, ensuring the activity doesn't look like a standard bot script.
 *   **Real-time Feed:** No need to refresh. Updates show up as they happen.
 *   **Analytics:** A simple endpoint I added to track Win Rate.
 *   **Dockerized:** I wrapped everything in Docker so it's easy to run.
