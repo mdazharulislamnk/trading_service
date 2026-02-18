@@ -79,6 +79,12 @@ def root():
                 "Description": "A UI to test the API and view orders."
             },
             {
+                "Purpose": "Simple WebSocket Client",
+                "Endpoint": "/test_client",
+                "Method": "GET",
+                "Description": "A lightweight HTML client to test WebSocket connections."
+            },
+            {
                 "Purpose": "Real-time Orders",
                 "Endpoint": "/ws/orders",
                 "Method": "WS",
@@ -92,17 +98,36 @@ def root():
             }
         ],
         "usage_examples": {
-            "1. Health Check": "curl -X GET \"http://localhost:8080/health\"",
-            "2. Send Signal (User 1 - Buy EURUSD)": "curl -X POST \"http://localhost:8080/webhook/receive-signal?user_id=1&signal_text=BUY%20EURUSD%20%401.0850%0ASL%201.0800%0ATP%201.0900\"",
-            "3. Send Signal (User 2 - Sell GBPUSD)": "curl -X POST \"http://localhost:8080/webhook/receive-signal?user_id=2&signal_text=SELL%20GBPUSD%20%401.2500%0ASL%201.2600%0ATP%201.2400\"",
-            "4. Send Signal (User 99 - Buy BTCUSD)": "curl -X POST \"http://localhost:8080/webhook/receive-signal?user_id=99&signal_text=BUY%20BTCUSD%20%4065000\"",
-            "5. Get All Orders": "curl -X GET \"http://localhost:8080/orders\"",
-            "6. Get Specific Order (ID 1)": "curl -X GET \"http://localhost:8080/orders/1\"",
-            "7. Link Broker Account (Generic)": "curl -X POST \"http://localhost:8080/accounts\" -H \"Content-Type: application/json\" -d \"{\\\"user_id\\\": 2, \\\"broker_name\\\": \\\"Binance\\\", \\\"broker_api_key\\\": \\\"key-999\\\"}\"",
-            "8. Get Analytics": "curl -X GET \"http://localhost:8080/analytics\""
+            "local_testing": {
+                "1. Health Check": "curl -X GET http://localhost:8080/health",
+                "2. Send Signal (User 1 - Buy EURUSD)": "curl -X POST \"http://localhost:8080/webhook/receive-signal?user_id=1&signal_text=BUY%20EURUSD%20%401.0850%0ASL%201.0800%0ATP%201.0900\"",
+                "3. Send Signal (User 2 - Sell GBPUSD)": "curl -X POST \"http://localhost:8080/webhook/receive-signal?user_id=2&signal_text=SELL%20GBPUSD%20%401.2500%0ASL%201.2600%0ATP%201.2400\"",
+                "4. Send Signal (User 99 - Buy BTCUSD)": "curl -X POST \"http://localhost:8080/webhook/receive-signal?user_id=99&signal_text=BUY%20BTCUSD%20%4065000\"",
+                "5. Get All Orders": "curl -X GET http://localhost:8080/orders",
+                "6. Get Specific Order (ID 1)": "curl -X GET http://localhost:8080/orders/1",
+                "7. Link Broker Account (Generic)": "curl -X POST http://localhost:8080/accounts -H \"Content-Type: application/json\" -d \"{\\\"user_id\\\": 2, \\\"broker_name\\\": \\\"Binance\\\", \\\"broker_api_key\\\": \\\"key-999\\\"}\"",
+                "8. Get Analytics": "curl -X GET http://localhost:8080/analytics"
+            },
+            "production_render": {
+                "1. Health Check": "curl -X GET https://trading-service-oszt.onrender.com/health",
+                "2. Send Signal (User 1 - Buy EURUSD)": "curl -X POST \"https://trading-service-oszt.onrender.com/webhook/receive-signal?user_id=1&signal_text=BUY%20EURUSD%20%401.0850%0ASL%201.0800%0ATP%201.0900\"",
+                "3. Send Signal (User 2 - Sell GBPUSD)": "curl -X POST \"https://trading-service-oszt.onrender.com/webhook/receive-signal?user_id=2&signal_text=SELL%20GBPUSD%20%401.2500%0ASL%201.2600%0ATP%201.2400\"",
+                "4. Send Signal (User 99 - Buy BTCUSD)": "curl -X POST \"https://trading-service-oszt.onrender.com/webhook/receive-signal?user_id=99&signal_text=BUY%20BTCUSD%20%4065000\"",
+                "5. Get All Orders": "curl -X GET https://trading-service-oszt.onrender.com/orders",
+                "6. Get Specific Order (ID 1)": "curl -X GET https://trading-service-oszt.onrender.com/orders/1",
+                "7. Link Broker Account (Generic)": "curl -X POST https://trading-service-oszt.onrender.com/accounts -H \"Content-Type: application/json\" -d \"{\\\"user_id\\\": 2, \\\"broker_name\\\": \\\"Binance\\\", \\\"broker_api_key\\\": \\\"key-999\\\"}\"",
+                "8. Get Analytics": "curl -X GET https://trading-service-oszt.onrender.com/analytics",
+                "9. Get Analytics (User 1)": "curl -X GET https://trading-service-oszt.onrender.com/analytics?user_id=1",
+                "10. Get Analytics (User 2)": "curl -X GET https://trading-service-oszt.onrender.com/analytics?user_id=2",
+                "11. Get Analytics (User 99)": "curl -X GET https://trading-service-oszt.onrender.com/analytics?user_id=99"
+            }
         }
     }
 
 @app.get("/dashboard")
 def dashboard():
     return FileResponse("dashboard.html")
+
+@app.get("/test_client")
+def test_client():
+    return FileResponse("test_client.html")
