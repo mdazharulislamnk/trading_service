@@ -62,10 +62,12 @@ I made sure it was **asynchronous** and **real-time** because nobody likes waiti
 
 ## <a name="technology-stack"></a>Technology Stack
 
-*   **Backend:** [FastAPI](https://fastapi.tiangolo.com/) (Python 3.9+) - I chose this because it's fast and handles async code much better than older frameworks.
+*   **Backend & API Framework:** [FastAPI](https://fastapi.tiangolo.com/) (Python 3.9+) - Fast, async-ready framework for building high-performance REST APIs.
+*   **Signal Ingestion:** Webhooks - Asynchronous POST endpoints designed to receive and process unstructured payload data (e.g., from TradingView) instantly.
+*   **Data Parsing Engine:** Custom Regex - Robust regular expression logic to reliably extract structured symbols, entry prices, SL, and TP data from unpredictable text signals.
 *   **Database:** [SQLite](https://www.sqlite.org/) - Lightweight and requires no setup, perfect for quick and free deployments.
 *   **ORM:** [SQLModel](https://sqlmodel.tiangolo.com/) - Makes interacting with the DB feel like writing normal Python classes.
-*   **Real-time:** Native WebSockets.
+*   **Real-time Updates:** Native WebSockets - For pushing live order execution updates instantly to clients without polling.
 *   **Containerization:** Docker & Docker Compose.
 
 ---
