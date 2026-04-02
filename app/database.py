@@ -1,7 +1,7 @@
 from sqlmodel import SQLModel, create_engine
 import os
 
-# Use SQLite for simplicity initially, but easy to switch to Postgres
+# Use SQLite for simplicity
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./trading.db")
 
 connect_args = {"check_same_thread": False} if "sqlite" in DATABASE_URL else {}

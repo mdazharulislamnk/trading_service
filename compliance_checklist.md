@@ -18,7 +18,6 @@ This document confirms that all requirements for the **Trading Signal Service** 
 
 | Challenge | Status | Implementation Details |
 | :--- | :---: | :--- |
-| **Real Database (PostgreSQL)** | ✅ **Done** | `docker-compose.yml`: Spins up a PostgreSQL container. `app/database.py` connects to it. |
 | **Docker Support** | ✅ **Done** | `Dockerfile` & `docker-compose.yml`: Fully containerized application. One command run. |
 | **Performance Analytics** | ✅ **Done** | `app/api/endpoints.py`: `GET /analytics` calculates Win Rate and Total PnL from closed orders. |
 

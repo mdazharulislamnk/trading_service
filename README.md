@@ -87,7 +87,7 @@ trading_service/
 │   ├── main.py             # Entry Point. Starts the app, handles CORS, and the root endpoint.
 │   └── models.py           # Database Schema. Defines "User" and "Order" structure.
 ├── Dockerfile              # Instructions for building the Python environment in Docker.
-├── docker-compose.yml      # Startup Script. Launches the API and Database.
+├── docker-compose.yml      # Startup Script. Launches the API (now using embedded SQLite).
 ├── requirements.txt        # Library List. Installs FastAPI, SQLModel, etc.
 ├── dashboard.html          # Testing UI. A visual dashboard for testing the API.
 ├── test_client.html        # Simple Client. Basic file to test WebSocket connections.
