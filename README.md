@@ -1,6 +1,6 @@
 # Trading Signal Service 
 
-Hi, I'm **Md. Azharul Islam**. This is a backend service I built to handle trading signals, manage order lifecycles, and push updates in real-time. I used **FastAPI**, **PostgreSQL**, and **Docker** to put it all together.
+Hi, I'm **Md. Azharul Islam**. This is a backend service I built to handle trading signals, manage order lifecycles, and push updates in real-time. I used **FastAPI**, **SQLite**, and **Docker** to put it all together.
 
 ##  Table of Contents
 
@@ -42,7 +42,7 @@ The idea was to take a simple text signal, parse it to figure out if it's a BUY 
 I made sure it was **asynchronous** and **real-time** because nobody likes waiting:
 *   **Signals** get processed in the background, keeping the API responsive.
 *   **Status Updates** happen instantly via WebSockets (e.g., whenever an order fills).
-*   **Data** is stored securely in a PostgreSQL database.
+*   **Data** is stored securely in an SQLite database.
 
 ---
 
@@ -63,7 +63,7 @@ I made sure it was **asynchronous** and **real-time** because nobody likes waiti
 ## <a name="technology-stack"></a>Technology Stack
 
 *   **Backend:** [FastAPI](https://fastapi.tiangolo.com/) (Python 3.9+) - I chose this because it's fast and handles async code much better than older frameworks.
-*   **Database:** [PostgreSQL](https://www.postgresql.org/) - A solid, production-grade database.
+*   **Database:** [SQLite](https://www.sqlite.org/) - Lightweight and requires no setup, perfect for quick and free deployments.
 *   **ORM:** [SQLModel](https://sqlmodel.tiangolo.com/) - Makes interacting with the DB feel like writing normal Python classes.
 *   **Real-time:** Native WebSockets.
 *   **Containerization:** Docker & Docker Compose.
@@ -83,7 +83,7 @@ trading_service/
 │   ├── services/
 │   │   ├── broker.py       # "Mock Broker". Simulates execution delays and market results.
 │   │   └── parser.py       # Parsing Logic. Extracts Symbol, Price, SL, and TP.
-│   ├── database.py         # Database Setup. Connects to PostgreSQL.
+│   ├── database.py         # Database Setup. Connects to SQLite.
 │   ├── main.py             # Entry Point. Starts the app, handles CORS, and the root endpoint.
 │   └── models.py           # Database Schema. Defines "User" and "Order" structure.
 ├── Dockerfile              # Instructions for building the Python environment in Docker.
@@ -92,7 +92,7 @@ trading_service/
 ├── dashboard.html          # Testing UI. A visual dashboard for testing the API.
 ├── test_client.html        # Simple Client. Basic file to test WebSocket connections.
 ├── curl.txt                # CLI Cheat Sheet. Commands for terminal testing.
-├── render.yaml             # Render Deployment. Automates setting up the Web Service and DB on Render.
+├── render.yaml             # Render Deployment. Automates setting up the Web Service on Render.
 ├── .gitignore              # Git Ignore. Prevents files like venv or .db from being committed.
 └── README.md               # Documentation. This file.
 ```
@@ -104,7 +104,7 @@ trading_service/
 ### Prerequisites
 
 *   **Docker Desktop** (Recommended - simplest way)
-*   *Or* Python 3.9+ and PostgreSQL installed.
+*   *Or* Python 3.9+ installed.
 
 ### Running with Docker (Recommended)
 
@@ -131,7 +131,7 @@ I've included a `render.yaml` file so you can deploy this easily:
 2.  Go to [Render Dashboard](https://dashboard.render.com/).
 3.  Click **New +** -> **Blueprint**.
 4.  Connect your repo.
-5.  Render will automatically create the **Web Service** and **PostgreSQL Database** for you.
+5.  Render will automatically create the **Web Service** for you.
 
 ### Running Locally
 
@@ -203,7 +203,7 @@ I needed something performant that could handle concurrency well. I've used Djan
 Parsing trading signals can be tricky since formats vary. Regex gave me enough flexibility to handle signals whether or not they included an entry price, making the system more robust without overcomplicating it.
 
 ### Database Choice
-I chose **PostgreSQL** (via Docker) over SQLite because I wanted to set up a proper, production-ready environment, even for a test project.
+I chose **SQLite** to make deployment completely free and effortless on platforms like Render without needing a separate database service.
 
 ---
 
