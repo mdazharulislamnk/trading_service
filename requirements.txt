@@ -2,7 +2,6 @@ fastapi
 uvicorn
 sqlmodel
 pydantic
-psycopg2-binary
 websockets
 requests
 python-multipart
