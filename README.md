@@ -209,4 +209,4 @@ I chose **SQLite** to make deployment completely free and effortless on platform
 
 ---
 
-**Author:** Md. Azharul Islam
+**Author:** Md. Azharul Islam, Software Engineer. 
